@@ -4,7 +4,6 @@ import 'package:aura_frontend/models/models.dart';
 import 'package:aura_frontend/services/api_service.dart';
 import 'package:aura_frontend/services/local_storage.dart';
 import 'package:aura_frontend/services/firebase_service.dart';
-import 'package:aura_frontend/services/notification_service.dart';
 
 // --- Authentication & Profile Provider ---
 class AuthNotifier extends Notifier<StudentProfile?> {
@@ -67,10 +66,6 @@ class AttendanceNotifier extends Notifier<AttendanceAnalysis?> {
     final data = await ApiService.getAttendanceSummary(studentId);
     if (data != null) {
       state = data;
-      final student = ref.read(authProvider);
-      if (student != null) {
-        NotificationService().checkAndTriggerAttendanceAlerts(data, student.attendanceTarget);
-      }
     }
   }
 
@@ -338,25 +333,13 @@ class TasksNotifier extends Notifier<List<Task>> {
     final newTask = await ApiService.createTask(payload);
     if (newTask != null) {
       await load(payload['student_id']);
-      if (newTask.reminder) {
-        NotificationService().scheduleTaskReminder(newTask);
-      }
     }
   }
 
   Future<void> toggle(int taskId, String studentId) async {
     final success = await ApiService.toggleTask(taskId);
     if (success) {
-      // Find the task before reloading to check its reminder status
-      final task = state.firstWhere((t) => t.id == taskId);
       await load(studentId);
-      final updatedTask = state.firstWhere((t) => t.id == taskId);
-      
-      if (updatedTask.isCompleted) {
-        NotificationService().cancelTaskReminder(taskId);
-      } else if (updatedTask.reminder) {
-        NotificationService().scheduleTaskReminder(updatedTask);
-      }
     }
   }
 
@@ -364,7 +347,6 @@ class TasksNotifier extends Notifier<List<Task>> {
     final success = await ApiService.deleteTask(taskId);
     if (success) {
       state = state.where((t) => t.id != taskId).toList();
-      NotificationService().cancelTaskReminder(taskId);
     }
   }
 }
@@ -468,9 +450,6 @@ class ExamsNotifier extends Notifier<List<Exam>> {
     final saved = await FirebaseService.saveExam(userId, exam);
     if (saved != null) {
       state = [...state, saved];
-      if (saved.reminderSet) {
-        NotificationService().scheduleExamReminders(saved);
-      }
     }
     return saved;
   }
@@ -479,7 +458,6 @@ class ExamsNotifier extends Notifier<List<Exam>> {
     final ok = await FirebaseService.deleteExam(userId, examId);
     if (ok) {
       state = state.where((e) => e.id != examId).toList();
-      NotificationService().cancelExamReminders(examId);
     }
     return ok;
   }
@@ -504,9 +482,6 @@ class AssignmentsNotifier extends Notifier<List<Assignment>> {
     final saved = await FirebaseService.saveAssignment(userId, assignment);
     if (saved != null) {
       state = [...state, saved];
-      if (saved.reminderSet && saved.status != 'submitted') {
-        NotificationService().scheduleAssignmentReminders(saved);
-      }
     }
     return saved;
   }
@@ -517,7 +492,7 @@ class AssignmentsNotifier extends Notifier<List<Assignment>> {
       final newStatus = currentStatus == 'submitted' ? 'pending' : 'submitted';
       state = state.map((a) {
         if (a.id == assignmentId) {
-          final updated = Assignment(
+          return Assignment(
             id: a.id,
             studentId: a.studentId,
             title: a.title,
@@ -527,16 +502,6 @@ class AssignmentsNotifier extends Notifier<List<Assignment>> {
             status: newStatus,
             reminderSet: a.reminderSet,
           );
-          
-          if (updated.reminderSet) {
-            if (newStatus == 'submitted') {
-              NotificationService().cancelAssignmentReminders(assignmentId);
-            } else {
-              NotificationService().scheduleAssignmentReminders(updated);
-            }
-          }
-          
-          return updated;
         }
         return a;
       }).toList();
@@ -548,7 +513,6 @@ class AssignmentsNotifier extends Notifier<List<Assignment>> {
     final ok = await FirebaseService.deleteAssignment(userId, assignmentId);
     if (ok) {
       state = state.where((a) => a.id != assignmentId).toList();
-      NotificationService().cancelAssignmentReminders(assignmentId);
     }
     return ok;
   }

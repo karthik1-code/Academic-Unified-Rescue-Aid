@@ -37,27 +37,16 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
     setState(() => _isLoading = true);
     try {
-      if (email == 'karthik@aura.io' && password == 'Karthik@55') {
-        final profile = await ref.read(authProvider.notifier).loadProfile('student_dev');
+      final credential = await _authService.signInWithEmail(email, password);
+      if (credential != null && credential.user != null) {
+        final studentId = credential.user!.uid;
+        final profile = await ref.read(authProvider.notifier).loadProfile(studentId);
+        
         if (mounted) {
           if (profile != null) {
             context.go('/dashboard');
           } else {
             context.go('/onboarding');
-          }
-        }
-      } else {
-        final credential = await _authService.signInWithEmail(email, password);
-        if (credential != null && credential.user != null) {
-          final studentId = credential.user!.uid;
-          final profile = await ref.read(authProvider.notifier).loadProfile(studentId);
-          
-          if (mounted) {
-            if (profile != null) {
-              context.go('/dashboard');
-            } else {
-              context.go('/onboarding');
-            }
           }
         }
       }

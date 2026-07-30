@@ -4,7 +4,6 @@ import 'package:aura_frontend/core/theme.dart';
 import 'package:aura_frontend/core/router.dart';
 import 'package:aura_frontend/services/local_storage.dart';
 import 'package:aura_frontend/services/sync_service.dart';
-import 'package:aura_frontend/services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +13,6 @@ void main() async {
   
   // Start background sync listener
   SyncService().startListening();
-  
-  // Initialize notification triggers
-  await NotificationService().initNotifications();
 
   runApp(
     const ProviderScope(
