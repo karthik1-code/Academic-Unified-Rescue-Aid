@@ -1,0 +1,19 @@
+# Environment variables & secrets
+.env
+*.env
+serviceAccountKey.json
+*.json.key
+
+# Databases & Logs
+*.db
+*.log
+backend_log.txt
+
+# Virtual environments
+.venv/
+__pycache__/
+
+# IDE & OS files
+.idea/
+.DS_Store
+*.iml

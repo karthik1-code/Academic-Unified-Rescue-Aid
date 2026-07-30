@@ -1,0 +1,191 @@
+{
+  "student_profiles": {
+    "student_dev": {
+      "id": "student_dev",
+      "name": "karthik",
+      "university": "jntuh",
+      "branch": "csc",
+      "year": "3rd",
+      "semester": "5",
+      "semester_start": "2026-07-03",
+      "semester_end": "2026-10-31",
+      "attendance_target": 75.0,
+      "daily_study_goal_hours": 2.0,
+      "career_goal": "clod",
+      "weak_subjects": "",
+      "strong_subjects": ""
+    }
+  },
+  "subjects": {
+    "1783087502772": {
+      "id": 1783087502772,
+      "student_id": "student_dev",
+      "name": "os",
+      "credits": 3,
+      "faculty": "ans",
+      "color": "0xFF00F0FF"
+    },
+    "1783087502805": {
+      "id": 1783087502805,
+      "student_id": "student_dev",
+      "name": "cn",
+      "credits": 3,
+      "faculty": "aa",
+      "color": "0xFFB5179E"
+    },
+    "1783087502836": {
+      "id": 1783087502836,
+      "student_id": "student_dev",
+      "name": "eng",
+      "credits": 3,
+      "faculty": "dd",
+      "color": "0xFFFFD166"
+    }
+  },
+  "syllabus_units": {
+    "17830875027721": {
+      "id": 17830875027721,
+      "subject_id": 1783087502772,
+      "unit_number": 1,
+      "title": "Unit 1: Foundations of os",
+      "description": "Introduction to syllabus unit 1",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875027722": {
+      "id": 17830875027722,
+      "subject_id": 1783087502772,
+      "unit_number": 2,
+      "title": "Unit 2: Foundations of os",
+      "description": "Introduction to syllabus unit 2",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875027723": {
+      "id": 17830875027723,
+      "subject_id": 1783087502772,
+      "unit_number": 3,
+      "title": "Unit 3: Foundations of os",
+      "description": "Introduction to syllabus unit 3",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875027724": {
+      "id": 17830875027724,
+      "subject_id": 1783087502772,
+      "unit_number": 4,
+      "title": "Unit 4: Foundations of os",
+      "description": "Introduction to syllabus unit 4",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875027725": {
+      "id": 17830875027725,
+      "subject_id": 1783087502772,
+      "unit_number": 5,
+      "title": "Unit 5: Foundations of os",
+      "description": "Introduction to syllabus unit 5",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028051": {
+      "id": 17830875028051,
+      "subject_id": 1783087502805,
+      "unit_number": 1,
+      "title": "Unit 1: Foundations of cn",
+      "description": "Introduction to syllabus unit 1",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028052": {
+      "id": 17830875028052,
+      "subject_id": 1783087502805,
+      "unit_number": 2,
+      "title": "Unit 2: Foundations of cn",
+      "description": "Introduction to syllabus unit 2",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028053": {
+      "id": 17830875028053,
+      "subject_id": 1783087502805,
+      "unit_number": 3,
+      "title": "Unit 3: Foundations of cn",
+      "description": "Introduction to syllabus unit 3",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028054": {
+      "id": 17830875028054,
+      "subject_id": 1783087502805,
+      "unit_number": 4,
+      "title": "Unit 4: Foundations of cn",
+      "description": "Introduction to syllabus unit 4",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028055": {
+      "id": 17830875028055,
+      "subject_id": 1783087502805,
+      "unit_number": 5,
+      "title": "Unit 5: Foundations of cn",
+      "description": "Introduction to syllabus unit 5",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028361": {
+      "id": 17830875028361,
+      "subject_id": 1783087502836,
+      "unit_number": 1,
+      "title": "Unit 1: Foundations of eng",
+      "description": "Introduction to syllabus unit 1",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028362": {
+      "id": 17830875028362,
+      "subject_id": 1783087502836,
+      "unit_number": 2,
+      "title": "Unit 2: Foundations of eng",
+      "description": "Introduction to syllabus unit 2",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028363": {
+      "id": 17830875028363,
+      "subject_id": 1783087502836,
+      "unit_number": 3,
+      "title": "Unit 3: Foundations of eng",
+      "description": "Introduction to syllabus unit 3",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028364": {
+      "id": 17830875028364,
+      "subject_id": 1783087502836,
+      "unit_number": 4,
+      "title": "Unit 4: Foundations of eng",
+      "description": "Introduction to syllabus unit 4",
+      "status": "pending",
+      "completion_date": ""
+    },
+    "17830875028365": {
+      "id": 17830875028365,
+      "subject_id": 1783087502836,
+      "unit_number": 5,
+      "title": "Unit 5: Foundations of eng",
+      "description": "Introduction to syllabus unit 5",
+      "status": "pending",
+      "completion_date": ""
+    }
+  },
+  "tasks": {},
+  "goals": {},
+  "attendance_records": {
+    "1783087502772_2026-07-04": {
+      "subject_id": 1783087502772,
+      "date": "2026-07-04",
+      "status": "present"
+    }
+  }
+}
