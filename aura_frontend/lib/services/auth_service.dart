@@ -23,8 +23,7 @@ class AuthService {
       '528620809743-6lgoof9f354uiasj6o36uv0e7v5j3kr3.apps.googleusercontent.com';
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId: kIsWeb ? _webClientId : null,
-    serverClientId: _webClientId,
+    clientId: _webClientId,
     scopes: ['email', 'profile', 'openid'],
   );
 
