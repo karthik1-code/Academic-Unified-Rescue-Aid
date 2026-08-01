@@ -139,23 +139,117 @@ class MongoCollection:
             results.append(MongoDocumentSnapshot(doc_id, doc_data))
         return results
 
+class InMemoryDocumentSnapshot:
+    def __init__(self, doc_id: str, data: Optional[Dict[str, Any]]):
+        self.id = doc_id
+        self._data = data
+        self.exists = data is not None
+
+    def to_dict(self) -> Optional[Dict[str, Any]]:
+        return self._data
+
+
+class InMemoryQuery:
+    def __init__(self, store: Dict[str, Dict[str, Dict[str, Any]]], collection_name: str, filters: Optional[Dict[str, Any]] = None):
+        self._store = store
+        self._collection_name = collection_name
+        self._filters = filters or {}
+
+    def where(self, field: str, op: str, value: Any):
+        new_filters = dict(self._filters)
+        if op == "==":
+            new_filters[field] = value
+        elif op == "<":
+            new_filters[field] = {"$lt": value}
+        elif op == ">":
+            new_filters[field] = {"$gt": value}
+        return InMemoryQuery(self._store, self._collection_name, new_filters)
+
+    def get(self) -> List[InMemoryDocumentSnapshot]:
+        results = []
+        for doc_id, doc_data in self._store.get(self._collection_name, {}).items():
+            if self._matches(doc_data):
+                results.append(InMemoryDocumentSnapshot(str(doc_id), dict(doc_data)))
+        return results
+
+    def _matches(self, doc_data: Dict[str, Any]) -> bool:
+        for field, expected in self._filters.items():
+            if isinstance(expected, dict) and "$lt" in expected:
+                if doc_data.get(field) is None or doc_data.get(field) >= expected["$lt"]:
+                    return False
+            elif isinstance(expected, dict) and "$gt" in expected:
+                if doc_data.get(field) is None or doc_data.get(field) <= expected["$gt"]:
+                    return False
+            elif doc_data.get(field) != expected:
+                return False
+        return True
+
+
+class InMemoryDocument:
+    def __init__(self, store: Dict[str, Dict[str, Dict[str, Any]]], collection_name: str, doc_id: str):
+        self._store = store
+        self._collection_name = collection_name
+        self.doc_id = str(doc_id)
+
+    def get(self) -> InMemoryDocumentSnapshot:
+        doc_data = self._store.get(self._collection_name, {}).get(self.doc_id)
+        if doc_data is None:
+            return InMemoryDocumentSnapshot(self.doc_id, None)
+        return InMemoryDocumentSnapshot(self.doc_id, dict(doc_data))
+
+    def set(self, data: Dict[str, Any], merge: bool = False):
+        collection_data = self._store.setdefault(self._collection_name, {})
+        existing = dict(collection_data.get(self.doc_id, {})) if self.doc_id in collection_data else {}
+        if merge:
+            existing.update(data)
+            collection_data[self.doc_id] = existing
+        else:
+            collection_data[self.doc_id] = dict(data)
+
+    def update(self, data: Dict[str, Any]):
+        self.set(data, merge=True)
+
+    def delete(self):
+        self._store.get(self._collection_name, {}).pop(self.doc_id, None)
+
+
+class InMemoryCollection:
+    def __init__(self, store: Dict[str, Dict[str, Dict[str, Any]]], name: str):
+        self._store = store
+        self.name = name
+
+    def document(self, doc_id: str):
+        return InMemoryDocument(self._store, self.name, doc_id)
+
+    def where(self, field: str, op: str, value: Any):
+        return InMemoryQuery(self._store, self.name).where(field, op, value)
+
+    def get(self) -> List[InMemoryDocumentSnapshot]:
+        results = []
+        for doc_id, doc_data in self._store.get(self.name, {}).items():
+            results.append(InMemoryDocumentSnapshot(str(doc_id), dict(doc_data)))
+        return results
+
+
 class MockFirestoreClient:
     def __init__(self):
+        self._store: Dict[str, Dict[str, Dict[str, Any]]] = {}
         try:
             self.client = pymongo.MongoClient(MONGO_URI, serverSelectionTimeoutMS=2000)
-            # Trigger server selection to verify connectivity
             self.client.server_info()
             self.db_mongo = self.client[DATABASE_NAME]
             print(f"Successfully connected to MongoDB database '{DATABASE_NAME}' at {MONGO_URI}.")
+            self._use_mongo = True
         except Exception as e:
             print(f"MongoDB connection failed: {e}. Falling back to in-memory/JSON client.")
-            # If MongoDB is not running, we could fallback to local mock dictionary in memory or raise error
-            raise RuntimeError(f"Could not connect to MongoDB: {e}")
+            self._use_mongo = False
 
     def collection(self, name: str):
-        return MongoCollection(self.db_mongo, name)
+        if self._use_mongo:
+            return MongoCollection(self.db_mongo, name)
+        return InMemoryCollection(self._store, name)
 
 # Instantiate client database client instance db
 db = MockFirestoreClient()
-is_mock = False
+is_mock = not db._use_mongo
 
