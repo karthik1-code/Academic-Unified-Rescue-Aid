@@ -16,6 +16,72 @@ From attendance tracking and syllabus management to study planning and academic 
 
 ---
 
+# Screenshots
+
+## Authentication
+
+| Login | Student Setup |
+|-------|---------------|
+| ![](screenshots/login.png) | ![](screenshots/setup1.png) |
+
+---
+
+## Subject Configuration
+
+![](screenshots/setup2.png)
+
+---
+
+## Dashboard
+
+![](screenshots/dashboard.png)
+
+---
+
+## Attendance Intelligence
+
+### Attendance Log
+
+![](screenshots/attendance.png)
+
+### Attendance Analytics
+
+![](screenshots/analysis.png)
+
+### Subject Recovery Plan
+
+![](screenshots/monitor.png)
+
+---
+
+## Academic Assistant
+
+![](screenshots/assistant.png)
+
+---
+
+## Syllabus Planner
+
+### Unit Tracker
+
+![](screenshots/units.png)
+
+---
+
+## Student Profile
+
+### Profile Overview
+
+![](screenshots/profile.png)
+
+### Student Information
+
+![](screenshots/info.png)
+
+---
+
+
+
 ## Features
 
 ### Authentication
@@ -100,71 +166,6 @@ From attendance tracking and syllabus management to study planning and academic 
 - Student Profile
 
 ---
-
-# Screenshots
-
-## Authentication
-
-| Login | Student Setup |
-|-------|---------------|
-| ![](screenshots/login.png) | ![](screenshots/setup1.png) |
-
----
-
-## Subject Configuration
-
-![](screenshots/setup2.png)
-
----
-
-## Dashboard
-
-![](screenshots/dashboard.png)
-
----
-
-## Attendance Intelligence
-
-### Attendance Log
-
-![](screenshots/attendance.png)
-
-### Attendance Analytics
-
-![](screenshots/analysis.png)
-
-### Subject Recovery Plan
-
-![](screenshots/monitor.png)
-
----
-
-## Academic Assistant
-
-![](screenshots/assistant.png)
-
----
-
-## Syllabus Planner
-
-### Unit Tracker
-
-![](screenshots/units.png)
-
----
-
-## Student Profile
-
-### Profile Overview
-
-![](screenshots/profile.png)
-
-### Student Information
-
-![](screenshots/info.png)
-
----
-
 
 # Future Enhancements
 
